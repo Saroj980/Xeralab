@@ -1,99 +1,79 @@
 import React from 'react';
-import { Mail, Phone, MapPin, Facebook, Instagram, Twitter } from 'lucide-react';
+import { Mail, Phone, MapPin, ArrowRight } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const Contact: React.FC = () => {
   return (
     <>
     <section id="contact" className="py-24 relative">
       <div className="container mx-auto px-6">
-        <div className="glass-panel p-8 md:p-16 rounded-3xl border border-white/10 relative overflow-hidden">
-            <div className="grid md:grid-cols-2 gap-12 items-center relative z-10">
+        <div className="rounded-[3rem] bg-slate-900 dark:bg-white/5 border border-slate-800 dark:border-white/10 p-8 md:p-16 overflow-hidden relative">
+            
+            {/* Background Pattern */}
+            <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
+
+            <div className="relative z-10 grid lg:grid-cols-2 gap-12 items-center">
                 <div>
-                    <h2 className="text-3xl md:text-5xl font-bold mb-6">Ready to Shape the <br/><span className="text-cyan-400">Future?</span></h2>
-                    <p className="text-slate-400 text-lg mb-8">
-                        Enrollment for our next batch is open. Seats are limited to ensure personalized attention.
+                    <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">Start Your <br/> AI Journey Today.</h2>
+                    <p className="text-slate-400 text-lg mb-8 max-w-md">
+                        Don't get left behind. Join the next cohort at XeraLabs and future-proof your career.
                     </p>
                     
                     <div className="space-y-6">
-                        <div className="flex items-center gap-4">
-                            <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center border border-white/10">
-                                <Phone className="text-cyan-400 w-5 h-5" />
+                        {[
+                            { icon: Phone, label: "Call Us", val: "+977 9800000000" },
+                            { icon: Mail, label: "Email", val: "hello@xeralabs.com.np" },
+                            { icon: MapPin, label: "Visit", val: "Traffic Chowk, Dhangadhi" }
+                        ].map((item, idx) => (
+                            <div key={idx} className="flex items-center gap-4 text-white">
+                                <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center">
+                                    <item.icon className="w-5 h-5 text-cyan-400" />
+                                </div>
+                                <div>
+                                    <p className="text-xs text-slate-500 uppercase font-bold">{item.label}</p>
+                                    <p className="text-lg font-medium">{item.val}</p>
+                                </div>
                             </div>
-                            <div>
-                                <p className="text-xs text-slate-500 uppercase tracking-wider">Call / WhatsApp</p>
-                                <p className="text-xl font-bold">+977 9800000000</p>
-                            </div>
-                        </div>
-                        
-                        <div className="flex items-center gap-4">
-                             <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center border border-white/10">
-                                <Mail className="text-purple-400 w-5 h-5" />
-                            </div>
-                            <div>
-                                <p className="text-xs text-slate-500 uppercase tracking-wider">Email Us</p>
-                                <p className="text-xl font-bold">hello@xeralabs.com.np</p>
-                            </div>
-                        </div>
-
-                         <div className="flex items-center gap-4">
-                             <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center border border-white/10">
-                                <MapPin className="text-green-400 w-5 h-5" />
-                            </div>
-                            <div>
-                                <p className="text-xs text-slate-500 uppercase tracking-wider">Visit Us</p>
-                                <p className="text-lg font-bold">Traffic Chowk, Dhangadhi, Nepal</p>
-                            </div>
-                        </div>
+                        ))}
                     </div>
                 </div>
 
-                <form className="bg-slate-950/50 p-8 rounded-2xl border border-white/5" onSubmit={(e) => e.preventDefault()}>
-                    <h3 className="text-2xl font-bold mb-6">Join the Waitlist</h3>
-                    <div className="space-y-4">
-                        <div>
-                            <label className="block text-xs uppercase text-slate-500 mb-2">Full Name</label>
-                            <input type="text" className="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-white focus:outline-none focus:border-cyan-500" placeholder="John Doe" />
+                <div className="bg-white dark:bg-slate-950 p-8 rounded-3xl shadow-2xl">
+                    <form className="space-y-4">
+                        <div className="grid grid-cols-2 gap-4">
+                            <div className="space-y-2">
+                                <label className="text-xs font-bold text-slate-500 uppercase">First Name</label>
+                                <input className="w-full p-3 rounded-lg bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 ring-cyan-500" placeholder="John" />
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-xs font-bold text-slate-500 uppercase">Last Name</label>
+                                <input className="w-full p-3 rounded-lg bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 ring-cyan-500" placeholder="Doe" />
+                            </div>
                         </div>
-                        <div>
-                            <label className="block text-xs uppercase text-slate-500 mb-2">Phone Number</label>
-                            <input type="tel" className="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-white focus:outline-none focus:border-cyan-500" placeholder="+977" />
+                        <div className="space-y-2">
+                            <label className="text-xs font-bold text-slate-500 uppercase">Email Address</label>
+                            <input className="w-full p-3 rounded-lg bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 ring-cyan-500" placeholder="john@example.com" />
                         </div>
-                         <div>
-                            <label className="block text-xs uppercase text-slate-500 mb-2">Interest</label>
-                            <select className="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-white focus:outline-none focus:border-cyan-500">
+                         <div className="space-y-2">
+                            <label className="text-xs font-bold text-slate-500 uppercase">Interested In</label>
+                            <select className="w-full p-3 rounded-lg bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 ring-cyan-500">
                                 <option>1-Month AI Masterclass</option>
                                 <option>Corporate Training</option>
-                                <option>General Inquiry</option>
                             </select>
                         </div>
-                        <button className="w-full bg-gradient-to-r from-cyan-600 to-purple-600 text-white font-bold py-4 rounded-lg mt-4 hover:shadow-[0_0_20px_rgba(6,182,212,0.4)] transition-shadow">
-                            Submit Application
+                        <button className="w-full py-4 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold rounded-xl flex items-center justify-center gap-2 hover:scale-[1.02] transition-transform">
+                            Submit Application <ArrowRight size={18} />
                         </button>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
       </div>
     </section>
 
-    <footer className="py-12 border-t border-white/5 bg-slate-950">
-        <div className="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
-            <div className="flex items-center gap-2">
-                <span className="text-xl font-bold font-['Space_Grotesk']">
-                Xera<span className="text-cyan-400">Labs</span>
-                </span>
-                <span className="text-slate-600 text-sm">| Future of Nepal</span>
-            </div>
-            
-            <div className="text-slate-500 text-sm">
-                © 2025 XeraLabs. All rights reserved.
-            </div>
-
-            <div className="flex gap-4">
-                <a href="#" className="text-slate-400 hover:text-white transition-colors"><Facebook size={20}/></a>
-                <a href="#" className="text-slate-400 hover:text-white transition-colors"><Instagram size={20}/></a>
-                <a href="#" className="text-slate-400 hover:text-white transition-colors"><Twitter size={20}/></a>
-            </div>
+    <footer className="py-8 bg-white dark:bg-slate-950 border-t border-slate-200 dark:border-white/5">
+        <div className="container mx-auto px-6 text-center text-slate-500 text-sm">
+            <p>© 2025 XeraLabs. All rights reserved.</p>
         </div>
     </footer>
     </>

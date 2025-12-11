@@ -1,87 +1,116 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Cpu } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Menu, X, Sun, Moon, Cpu } from 'lucide-react';
+import { useTheme } from '../ThemeContext';
 import { NAV_ITEMS } from '../constants';
 
 const Navbar: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  const [activeTab, setActiveTab] = useState(NAV_ITEMS[0].href);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { theme, toggleTheme } = useTheme();
 
   return (
-    <nav
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-        isScrolled ? 'py-4 bg-slate-950/80 backdrop-blur-md border-b border-white/10' : 'py-6 bg-transparent'
-      }`}
-    >
-      <div className="container mx-auto px-6 flex justify-between items-center">
-        {/* Logo */}
-        <a href="#" className="flex items-center gap-2 group">
-          <div className="p-2 rounded-lg bg-gradient-to-br from-cyan-500 to-purple-600 group-hover:shadow-[0_0_15px_rgba(34,211,238,0.5)] transition-shadow">
-            <Cpu className="text-white w-6 h-6" />
-          </div>
-          <span className="text-2xl font-bold font-['Space_Grotesk'] tracking-wide">
-            Xera<span className="text-cyan-400">Labs</span>
-          </span>
+    <>
+      {/* Desktop Floating Pill Navbar */}
+      <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 hidden md:flex items-center gap-2 p-2 rounded-full bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl border border-slate-200 dark:border-white/10 shadow-lg">
+        <a href="#hero" className="flex items-center gap-2 px-4 py-2 mr-2">
+            <div className="p-1.5 rounded-lg bg-gradient-to-br from-cyan-500 to-purple-600">
+                <Cpu className="text-white w-4 h-4" />
+            </div>
+            <span className="font-bold font-display text-slate-800 dark:text-white">Xera</span>
         </a>
 
-        {/* Desktop Menu */}
-        <div className="hidden md:flex items-center gap-8">
+        <nav className="flex items-center gap-1">
           {NAV_ITEMS.map((item) => (
             <a
-              key={item.label}
+              key={item.href}
               href={item.href}
-              className="text-sm font-medium text-slate-300 hover:text-white hover:text-shadow transition-colors"
+              onClick={() => setActiveTab(item.href)}
+              className={`relative px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                activeTab === item.href ? 'text-white' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+              }`}
             >
+              {activeTab === item.href && (
+                <motion.div
+                  layoutId="navbar-pill"
+                  className="absolute inset-0 bg-slate-900 dark:bg-white/10 rounded-full"
+                  transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
+                  style={{ zIndex: -1 }}
+                />
+              )}
               {item.label}
             </a>
           ))}
-          <a
-            href="#contact"
-            className="px-6 py-2 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white font-medium transition-all hover:scale-105"
-          >
-            Enroll Now
-          </a>
-        </div>
+        </nav>
 
-        {/* Mobile Toggle */}
+        <div className="w-px h-6 bg-slate-300 dark:bg-slate-700 mx-2" />
+
         <button
-          className="md:hidden text-white"
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={toggleTheme}
+          className="p-2.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:scale-110 transition-transform"
         >
-          {isOpen ? <X /> : <Menu />}
+          <AnimatePresence mode="wait">
+            {theme === 'dark' ? (
+                <motion.div key="sun" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }}>
+                    <Sun size={18} />
+                </motion.div>
+            ) : (
+                <motion.div key="moon" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }}>
+                    <Moon size={18} />
+                </motion.div>
+            )}
+          </AnimatePresence>
         </button>
+
+        <a href="#contact" className="ml-2 px-5 py-2.5 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-bold hover:scale-105 transition-transform">
+            Join Now
+        </a>
       </div>
 
-      {/* Mobile Menu */}
-      {isOpen && (
-        <div className="md:hidden absolute top-full left-0 w-full bg-slate-950/95 backdrop-blur-xl border-b border-white/10 p-6 flex flex-col gap-6 shadow-2xl">
-          {NAV_ITEMS.map((item) => (
-            <a
-              key={item.label}
-              href={item.href}
-              className="text-lg font-medium text-slate-300 hover:text-cyan-400"
-              onClick={() => setIsOpen(false)}
-            >
-              {item.label}
-            </a>
-          ))}
-          <a
-            href="#contact"
-            className="w-full text-center py-3 rounded-lg bg-gradient-to-r from-cyan-600 to-purple-600 text-white font-bold"
-            onClick={() => setIsOpen(false)}
-          >
-            Enroll Now
-          </a>
+      {/* Mobile Header */}
+      <div className="fixed top-0 left-0 w-full p-4 z-50 md:hidden flex justify-between items-center bg-white/80 dark:bg-slate-950/80 backdrop-blur-lg border-b border-slate-200 dark:border-white/10">
+        <a href="#" className="flex items-center gap-2">
+            <Cpu className="text-cyan-500 w-6 h-6" />
+            <span className="text-xl font-bold font-display text-slate-900 dark:text-white">XeraLabs</span>
+        </a>
+        <div className="flex items-center gap-4">
+            <button onClick={toggleTheme} className="text-slate-600 dark:text-slate-300">
+                {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+            </button>
+            <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="text-slate-900 dark:text-white">
+                {isMobileMenuOpen ? <X /> : <Menu />}
+            </button>
         </div>
-      )}
-    </nav>
+      </div>
+
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+            <motion.div
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                className="fixed inset-0 z-40 bg-white dark:bg-slate-950 pt-24 px-6 md:hidden"
+            >
+                <div className="flex flex-col gap-6">
+                    {NAV_ITEMS.map((item) => (
+                        <a
+                            key={item.href}
+                            href={item.href}
+                            onClick={() => setIsMobileMenuOpen(false)}
+                            className="text-2xl font-bold text-slate-800 dark:text-slate-200"
+                        >
+                            {item.label}
+                        </a>
+                    ))}
+                    <a href="#contact" onClick={() => setIsMobileMenuOpen(false)} className="w-full py-4 bg-cyan-600 text-white text-center rounded-xl font-bold mt-4">
+                        Enroll Now
+                    </a>
+                </div>
+            </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 };
 

@@ -1,74 +1,66 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Eye, Target, MapPin, Users } from 'lucide-react';
+import { Lightbulb, Code2, Rocket } from 'lucide-react';
 
 const About: React.FC = () => {
   return (
     <section id="about" className="py-24 relative">
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
         
-        {/* Main About Card */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="glass-panel p-8 md:p-12 rounded-3xl mb-12 relative overflow-hidden"
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
         >
-            <div className="absolute top-0 right-0 p-12 opacity-10 pointer-events-none">
-                <Users size={200} />
-            </div>
-            
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">About <span className="text-cyan-400">XeraLabs</span></h2>
-            <p className="text-lg text-slate-300 leading-relaxed max-w-3xl">
-                We are Dhangadhi's premier AI institute dedicated to democratizing Artificial Intelligence. 
-                We believe AI isn't just for tech giants in Silicon Valley—it's a tool that can simplify daily life, 
-                enhance productivity, and create new opportunities for students, professionals, and entrepreneurs right here in Nepal.
+            <h2 className="text-sm font-bold tracking-widest uppercase text-cyan-500 mb-4">Who We Are</h2>
+            <h3 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-6 leading-tight">
+                Democratizing AI for <br/> Everyone in Nepal.
+            </h3>
+            <p className="text-slate-600 dark:text-slate-400 text-lg leading-relaxed mb-8">
+                XeraLabs is Dhangadhi's first dedicated AI institute. We believe that Artificial Intelligence shouldn't be limited to tech giants. Our mission is to simplify these complex tools and put the power of AI into the hands of students, creators, and business owners.
             </p>
             
-            <div className="flex items-center gap-4 mt-8 text-sm text-cyan-300">
-                <MapPin className="w-5 h-5" />
-                <span>Operating from Dhangadhi, Nepal</span>
+            <div className="flex gap-4">
+                <div className="flex flex-col gap-1">
+                    <span className="text-3xl font-bold text-slate-900 dark:text-white">500+</span>
+                    <span className="text-sm text-slate-500">Students Taught</span>
+                </div>
+                <div className="w-px bg-slate-200 dark:bg-slate-800" />
+                <div className="flex flex-col gap-1">
+                    <span className="text-3xl font-bold text-slate-900 dark:text-white">50+</span>
+                    <span className="text-sm text-slate-500">Projects Built</span>
+                </div>
             </div>
         </motion.div>
 
-        {/* Vision & Mission Grid */}
-        <div className="grid md:grid-cols-2 gap-8">
-            
-            {/* Vision */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="glass-panel glass-panel-hover p-8 rounded-2xl group transition-all"
-            >
-                <div className="w-12 h-12 rounded-lg bg-blue-500/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                    <Eye className="text-blue-400 w-6 h-6" />
-                </div>
-                <h3 className="text-2xl font-bold mb-4">Our Vision</h3>
-                <p className="text-slate-400">
-                    "AI literacy for every Nepali — everyone should understand and use AI."
-                </p>
-            </motion.div>
-
-            {/* Mission */}
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="glass-panel glass-panel-hover p-8 rounded-2xl group transition-all"
-            >
-                <div className="w-12 h-12 rounded-lg bg-purple-500/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                    <Target className="text-purple-400 w-6 h-6" />
-                </div>
-                <h3 className="text-2xl font-bold mb-4">Our Mission</h3>
-                <p className="text-slate-400">
-                    "To teach practical AI skills, provide hands-on training, and help people build real-world AI projects."
-                </p>
-            </motion.div>
+        <div className="grid gap-6">
+            {[
+                { icon: Lightbulb, title: "Learn Concepts", text: "Understand how LLMs and diffusion models actually work." },
+                { icon: Code2, title: "Master Tools", text: "Hands-on practice with Gemini, GPT-4, and Midjourney." },
+                { icon: Rocket, title: "Build Future", text: "Create real automation workflows for your career." }
+            ].map((item, idx) => (
+                <motion.div
+                    key={idx}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: idx * 0.2 }}
+                    className="p-6 rounded-2xl bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 shadow-xl dark:shadow-none hover:border-cyan-500/50 transition-colors group"
+                >
+                    <div className="flex items-start gap-4">
+                        <div className="p-3 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white group-hover:bg-cyan-500 group-hover:text-white transition-colors">
+                            <item.icon size={24} />
+                        </div>
+                        <div>
+                            <h4 className="text-xl font-bold text-slate-900 dark:text-white mb-2">{item.title}</h4>
+                            <p className="text-slate-600 dark:text-slate-400">{item.text}</p>
+                        </div>
+                    </div>
+                </motion.div>
+            ))}
         </div>
+
       </div>
     </section>
   );

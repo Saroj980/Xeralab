@@ -1,7 +1,7 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Bot, FileText, Smartphone, Zap, ArrowUpRight } from 'lucide-react';
-import { PROJECTS, FEATURES } from '../constants';
+import React, { useRef, MouseEvent } from 'react';
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import { PROJECTS } from '../constants';
+import { ArrowUpRight, Bot, Zap, Smartphone, FileText } from 'lucide-react';
 
 const iconMap = {
     bot: Bot,
@@ -12,83 +12,90 @@ const iconMap = {
 
 const Projects: React.FC = () => {
   return (
-    <section id="projects" className="py-24 relative bg-slate-950/50">
+    <section id="projects" className="py-32 relative">
       <div className="container mx-auto px-6">
-        
-        {/* Projects Header */}
-        <div className="mb-20">
-            <h2 className="text-3xl md:text-5xl font-bold mb-6">Real-Life <span className="text-cyan-400">AI Projects</span></h2>
-            <p className="text-slate-400 text-lg max-w-2xl">
-                We don't just teach theory. Here are examples of real solutions our students learn to build.
-            </p>
-        </div>
-
-        {/* Projects Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-32">
-            {PROJECTS.map((project, index) => {
-                const Icon = iconMap[project.icon];
-                return (
-                    <motion.div
-                        key={index}
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        whileHover={{ y: -10 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.4, delay: index * 0.1 }}
-                        className="glass-panel p-6 rounded-2xl group cursor-pointer relative overflow-hidden"
-                    >
-                        <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                        
-                        <div className="w-12 h-12 rounded-xl bg-slate-800 flex items-center justify-center mb-6 group-hover:bg-cyan-500/20 transition-colors">
-                            <Icon className="w-6 h-6 text-white group-hover:text-cyan-400 transition-colors" />
-                        </div>
-                        
-                        <div className="text-xs font-mono text-purple-400 mb-2 uppercase tracking-wider">{project.category}</div>
-                        <h3 className="text-xl font-bold mb-3">{project.title}</h3>
-                        <p className="text-sm text-slate-400 leading-relaxed mb-4">
-                            {project.description}
-                        </p>
-                        
-                        <div className="flex items-center text-xs text-cyan-300 font-bold opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0">
-                            LEARN THIS <ArrowUpRight className="w-3 h-3 ml-1" />
-                        </div>
-                    </motion.div>
-                );
-            })}
-        </div>
-
-        {/* Why Choose Us Section */}
-        <div className="bg-gradient-to-b from-transparent to-slate-900/50 rounded-3xl p-8 md:p-16 border border-white/5">
-            <h3 className="text-3xl font-bold text-center mb-12">Why Choose <span className="text-purple-400">XeraLabs</span>?</h3>
-            <div className="grid md:grid-cols-3 lg:grid-cols-5 gap-8">
-                {FEATURES.map((feature, idx) => (
-                    <motion.div
-                        key={idx}
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: idx * 0.1 }}
-                        className="text-center"
-                    >
-                         <div className="mx-auto w-14 h-14 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center mb-4 shadow-[0_0_15px_rgba(0,0,0,0.5)]">
-                            {/* Simplified icon mapping for features */}
-                            <span className="text-2xl">
-                                {feature.icon === 'brain' && '🧠'}
-                                {feature.icon === 'users' && '👥'}
-                                {feature.icon === 'zap' && '⚡'}
-                                {feature.icon === 'rocket' && '🚀'}
-                                {feature.icon === 'code' && '💻'}
-                            </span>
-                        </div>
-                        <h4 className="font-bold text-white mb-2">{feature.title}</h4>
-                        <p className="text-xs text-slate-400">{feature.description}</p>
-                    </motion.div>
-                ))}
+        <div className="flex flex-col md:flex-row justify-between items-end mb-16">
+            <div className="max-w-2xl">
+                <h2 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4">Student <span className="text-purple-600">Showcase</span></h2>
+                <p className="text-slate-600 dark:text-slate-400 text-lg">
+                    Real applications built by our students solving real Nepali problems.
+                </p>
             </div>
+            <a href="#" className="hidden md:flex items-center gap-2 text-slate-900 dark:text-white font-bold hover:gap-4 transition-all">
+                View All Projects <ArrowUpRight />
+            </a>
+        </div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {PROJECTS.map((project, idx) => (
+                <TiltCard key={idx} project={project} index={idx} />
+            ))}
         </div>
       </div>
     </section>
   );
+};
+
+const TiltCard: React.FC<{ project: any, index: number }> = ({ project, index }) => {
+    const ref = useRef<HTMLDivElement>(null);
+    const x = useMotionValue(0);
+    const y = useMotionValue(0);
+
+    const mouseXSpring = useSpring(x);
+    const mouseYSpring = useSpring(y);
+
+    const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["17.5deg", "-17.5deg"]);
+    const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-17.5deg", "17.5deg"]);
+
+    const handleMouseMove = (e: MouseEvent) => {
+        if (!ref.current) return;
+
+        const rect = ref.current.getBoundingClientRect();
+        const width = rect.width;
+        const height = rect.height;
+
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
+
+        const xPct = mouseX / width - 0.5;
+        const yPct = mouseY / height - 0.5;
+
+        x.set(xPct);
+        y.set(yPct);
+    };
+
+    const handleMouseLeave = () => {
+        x.set(0);
+        y.set(0);
+    };
+
+    const Icon = iconMap[project.icon as keyof typeof iconMap];
+
+    return (
+        <motion.div
+            ref={ref}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            style={{ rotateY, rotateX, transformStyle: "preserve-3d" }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1 }}
+            className="relative h-96 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 p-8 flex flex-col justify-between group cursor-pointer shadow-xl dark:shadow-none"
+        >
+            <div style={{ transform: "translateZ(50px)" }}>
+                <div className="w-14 h-14 rounded-2xl bg-slate-100 dark:bg-white/10 flex items-center justify-center mb-6 group-hover:bg-cyan-500 group-hover:text-white transition-colors text-slate-900 dark:text-white">
+                    <Icon size={28} />
+                </div>
+                <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">{project.title}</h3>
+                <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{project.description}</p>
+            </div>
+
+            <div style={{ transform: "translateZ(30px)" }} className="flex justify-between items-center opacity-0 group-hover:opacity-100 transition-opacity">
+                <span className="text-xs font-bold tracking-widest uppercase text-slate-400">View Project</span>
+                <ArrowUpRight className="text-cyan-500" />
+            </div>
+        </motion.div>
+    );
 };
 
 export default Projects;

@@ -1,122 +1,92 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { ChevronRight, ArrowRight, Sparkles } from 'lucide-react';
+import { motion, Variants } from 'framer-motion';
+import { Sparkles, ArrowDown } from 'lucide-react';
 
 const Hero: React.FC = () => {
-  return (
-    <section id="hero" className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
-      
-      {/* Decorative Grids */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] pointer-events-none" />
+  const container: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1, delayChildren: 0.2 },
+    },
+  };
 
-      <div className="container mx-auto px-6 relative z-10 text-center">
+  const item: Variants = {
+    hidden: { y: "100%" },
+    visible: { y: 0, transition: { duration: 0.8, ease: [0.33, 1, 0.68, 1] } },
+  };
+
+  return (
+    <section id="hero" className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-20">
+      <div className="container mx-auto px-6 text-center z-10">
         
-        {/* Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-panel mb-8"
+        {/* Animated Badge */}
+        <motion.div 
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1 }}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 mb-8"
         >
-          <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-          <span className="text-xs uppercase tracking-widest text-cyan-300 font-semibold">Based in Dhangadhi, Nepal</span>
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+            </span>
+            <span className="text-xs font-bold tracking-widest uppercase text-slate-600 dark:text-slate-300">Based in Dhangadhi</span>
         </motion.div>
 
-        {/* Headline */}
-        <motion.h1
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-5xl md:text-7xl font-bold leading-tight mb-6"
+        {/* Masked Reveal Headline */}
+        <motion.div 
+            variants={container}
+            initial="hidden"
+            animate="visible"
+            className="mb-8"
         >
-          Empowering Nepal With <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 animate-gradient">
-            The Future of AI
-          </span>
-        </motion.h1>
+            <div className="overflow-hidden">
+                <motion.h1 variants={item} className="text-5xl md:text-7xl lg:text-9xl font-bold text-slate-900 dark:text-white tracking-tighter leading-[1.1]">
+                    Empowering
+                </motion.h1>
+            </div>
+            <div className="overflow-hidden">
+                <motion.h1 variants={item} className="text-5xl md:text-7xl lg:text-9xl font-bold text-slate-900 dark:text-white tracking-tighter leading-[1.1]">
+                    The <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-600">Future</span>
+                </motion.h1>
+            </div>
+        </motion.div>
 
-        {/* Subheading */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed"
+        <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8, duration: 0.8 }}
+            className="max-w-xl mx-auto text-lg md:text-xl text-slate-600 dark:text-slate-400 leading-relaxed mb-12"
         >
-          XeraLabs teaches AI from scratch and helps people build real-world opportunities using modern AI tools.
+            Master AI from scratch and build real-world tools. Join Nepal's most advanced AI learning community.
         </motion.p>
 
-        {/* Buttons */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4"
+        <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1, duration: 0.8 }}
+            className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
-          <a
-            href="#course"
-            className="group relative px-8 py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-purple-600 text-white font-bold text-lg overflow-hidden shadow-[0_0_20px_rgba(6,182,212,0.3)] transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(147,51,234,0.5)]"
-          >
-            <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-            <span className="relative flex items-center gap-2">
-              Join 1-Month Course <Sparkles className="w-5 h-5" />
-            </span>
-          </a>
-          
-          <a
-            href="#contact"
-            className="px-8 py-4 rounded-xl glass-panel text-white font-semibold text-lg hover:bg-white/10 transition-all flex items-center gap-2 group"
-          >
-            Contact XeraLabs <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </a>
+            <a href="#course" className="group relative px-8 py-4 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold overflow-hidden transition-transform hover:scale-105">
+                <span className="relative z-10 flex items-center gap-2">Start Learning <Sparkles size={18}/></span>
+                <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            </a>
+            <a href="#demo" className="px-8 py-4 rounded-full border border-slate-200 dark:border-white/20 hover:bg-slate-100 dark:hover:bg-white/10 text-slate-900 dark:text-white font-medium transition-colors">
+                Try AI Demo
+            </a>
         </motion.div>
       </div>
 
-      {/* Floating Elements (Visual Decoration) */}
-      <motion.div
-        animate={{ y: [0, -20, 0] }}
-        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-1/4 left-[10%] hidden lg:block"
+      {/* Scroll Indicator */}
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1, y: [0, 10, 0] }}
+        transition={{ delay: 2, duration: 2, repeat: Infinity }}
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 text-slate-400 dark:text-slate-600"
       >
-        <div className="w-24 h-24 rounded-2xl glass-panel flex items-center justify-center border-t border-l border-cyan-500/30">
-            <span className="text-4xl">🤖</span>
-        </div>
+        <ArrowDown />
       </motion.div>
-
-      <motion.div
-        animate={{ y: [0, 25, 0] }}
-        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-        className="absolute bottom-1/4 right-[10%] hidden lg:block"
-      >
-         <div className="w-20 h-20 rounded-full glass-panel flex items-center justify-center border-b border-r border-purple-500/30">
-            <span className="text-3xl">🧠</span>
-        </div>
-      </motion.div>
-      
-      {/* Scroll Marquee */}
-      <div className="absolute bottom-0 w-full glass-panel border-t border-white/5 py-3 overflow-hidden">
-        <div className="whitespace-nowrap animate-marquee flex gap-12 text-slate-500 font-mono text-sm uppercase tracking-widest">
-           {[...Array(10)].map((_, i) => (
-             <React.Fragment key={i}>
-                <span>AI for Everyone</span>
-                <span className="text-cyan-500">•</span>
-                <span>Automate Your Work</span>
-                <span className="text-purple-500">•</span>
-                <span>Future Ready</span>
-                <span className="text-cyan-500">•</span>
-             </React.Fragment>
-           ))}
-        </div>
-      </div>
-      
-      <style>{`
-        @keyframes marquee {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-        .animate-marquee {
-          animation: marquee 30s linear infinite;
-        }
-      `}</style>
     </section>
   );
 };
