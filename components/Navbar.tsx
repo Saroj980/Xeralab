@@ -1,8 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Sun, Moon, Cpu } from 'lucide-react';
 import { useTheme } from '../ThemeContext';
 import { NAV_ITEMS } from '../constants';
+
+// --- LOGO COMPONENT ---
+// Edit this component to change your logo globally
+const Logo: React.FC<{ className?: string; iconSize?: number }> = ({ className = "", iconSize = 18 }) => (
+  <div className={`flex items-center gap-2 ${className}`}>
+    {/* Option A: Stylish Icon (Current) */}
+    <div className="p-1.5 rounded-lg bg-gradient-to-br from-cyan-500 to-purple-600 shadow-lg shadow-cyan-500/20">
+      <Cpu className="text-white" size={iconSize} />
+    </div>
+
+    {/* Option B: Image File (Uncomment below and comment Option A to use a file) */}
+    {/* <img src="/logo.svg" alt="XeraLabs Logo" className="h-8 w-auto" /> */}
+
+    <span className="font-bold font-display tracking-tight text-slate-900 dark:text-white">
+      Xera<span className="text-cyan-500">Labs</span>
+    </span>
+  </div>
+);
 
 const Navbar: React.FC = () => {
   const [activeTab, setActiveTab] = useState(NAV_ITEMS[0].href);
@@ -13,11 +31,8 @@ const Navbar: React.FC = () => {
     <>
       {/* Desktop Floating Pill Navbar */}
       <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 hidden md:flex items-center gap-2 p-2 rounded-full bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl border border-slate-200 dark:border-white/10 shadow-lg">
-        <a href="#hero" className="flex items-center gap-2 px-4 py-2 mr-2">
-            <div className="p-1.5 rounded-lg bg-gradient-to-br from-cyan-500 to-purple-600">
-                <Cpu className="text-white w-4 h-4" />
-            </div>
-            <span className="font-bold font-display text-slate-800 dark:text-white">Xera</span>
+        <a href="#hero" className="px-4 py-2 mr-2 hover:opacity-80 transition-opacity">
+          <Logo iconSize={16} />
         </a>
 
         <nav className="flex items-center gap-1">
@@ -62,22 +77,21 @@ const Navbar: React.FC = () => {
           </AnimatePresence>
         </button>
 
-        <a href="#contact" className="ml-2 px-5 py-2.5 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-bold hover:scale-105 transition-transform">
+        <a href="#contact" className="ml-2 px-5 py-2.5 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-bold hover:scale-105 transition-transform shadow-md">
             Join Now
         </a>
       </div>
 
       {/* Mobile Header */}
       <div className="fixed top-0 left-0 w-full p-4 z-50 md:hidden flex justify-between items-center bg-white/80 dark:bg-slate-950/80 backdrop-blur-lg border-b border-slate-200 dark:border-white/10">
-        <a href="#" className="flex items-center gap-2">
-            <Cpu className="text-cyan-500 w-6 h-6" />
-            <span className="text-xl font-bold font-display text-slate-900 dark:text-white">XeraLabs</span>
+        <a href="#hero">
+          <Logo iconSize={20} className="text-xl" />
         </a>
         <div className="flex items-center gap-4">
-            <button onClick={toggleTheme} className="text-slate-600 dark:text-slate-300">
+            <button onClick={toggleTheme} className="text-slate-600 dark:text-slate-300 p-2">
                 {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
             </button>
-            <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="text-slate-900 dark:text-white">
+            <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="text-slate-900 dark:text-white p-2">
                 {isMobileMenuOpen ? <X /> : <Menu />}
             </button>
         </div>
@@ -98,12 +112,12 @@ const Navbar: React.FC = () => {
                             key={item.href}
                             href={item.href}
                             onClick={() => setIsMobileMenuOpen(false)}
-                            className="text-2xl font-bold text-slate-800 dark:text-slate-200"
+                            className="text-2xl font-bold text-slate-800 dark:text-slate-200 hover:text-cyan-500 transition-colors"
                         >
                             {item.label}
                         </a>
                     ))}
-                    <a href="#contact" onClick={() => setIsMobileMenuOpen(false)} className="w-full py-4 bg-cyan-600 text-white text-center rounded-xl font-bold mt-4">
+                    <a href="#contact" onClick={() => setIsMobileMenuOpen(false)} className="w-full py-4 bg-cyan-600 text-white text-center rounded-xl font-bold mt-4 shadow-lg shadow-cyan-500/20">
                         Enroll Now
                     </a>
                 </div>
