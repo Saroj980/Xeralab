@@ -14,7 +14,7 @@ const Logo: React.FC<{ className?: string; iconSize?: number }> = ({ className =
     </div> */}
 
     {/* Option B: Image File (Uncomment below and comment Option A to use a file) */}
-    { <img src="/xeralabai-final-removebg-preview.png" alt="XeraLabs Logo" className="h-10 w-auto" /> }
+    { <img src="/xeralabai-final-removebg-preview.png" alt="XeraLabs Logo" className="h-8 w-auto" /> }
 
     {/* <span className="font-bold font-display tracking-tight text-slate-900 dark:text-white">
       Xera<span className="text-cyan-500">Labs</span>
