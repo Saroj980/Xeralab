@@ -9,12 +9,12 @@ import { NAV_ITEMS } from '../constants';
 const Logo: React.FC<{ className?: string; iconSize?: number }> = ({ className = "", iconSize = 18 }) => (
   <div className={`flex items-center gap-2 ${className}`}>
     {/* Option A: Stylish Icon (Current) */}
-    <div className="p-1.5 rounded-lg bg-gradient-to-br from-cyan-500 to-purple-600 shadow-lg shadow-cyan-500/20">
+    {/* <div className="p-1.5 rounded-lg bg-gradient-to-br from-cyan-500 to-purple-600 shadow-lg shadow-cyan-500/20">
       <Cpu className="text-white" size={iconSize} />
-    </div>
+    </div> */}
 
     {/* Option B: Image File (Uncomment below and comment Option A to use a file) */}
-    {/* <img src="/logo.svg" alt="XeraLabs Logo" className="h-8 w-auto" /> */}
+    { <img src="/xeralabai-final-removebg-preview.png" alt="XeraLabs Logo" className="h-8 w-auto" /> }
 
     <span className="font-bold font-display tracking-tight text-slate-900 dark:text-white">
       Xera<span className="text-cyan-500">Labs</span>
